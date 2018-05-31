@@ -9,6 +9,12 @@
         "description" : "User name for the Virtual Machine and OpenShift Webconsole."
       }
     },
+    "adminPassword" : {
+      "type" : "securestring",
+      "metadata" : {
+        "description" : "User password for the OpenShift Webconsole"
+      }
+    },
     "rhsmUser": {
       "type" : "string",
       "metadata" : {
