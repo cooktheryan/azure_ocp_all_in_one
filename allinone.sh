@@ -36,7 +36,7 @@ echo ${RHSM_POOL} >> /tmp/save
 swapoff -a
 subscription-manager register --username=${RHSM_USER} --password=${RHSM_PASSWORD}
 subscription-manager attach --pool=${RHSM_POOL}
-subscription-manager repos --disable="*" --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.9-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.4-rpms"'
+subscription-manager repos --disable="*" --enable="rhel-7-server-rpms" --enable="rhel-7-server-extras-rpms" --enable="rhel-7-server-ose-3.9-rpms" --enable="rhel-7-fast-datapath-rpms" --enable="rhel-7-server-ansible-2.4-rpms"
 yum install -y wget git net-tools bind-utils yum-utils iptables-services bridge-utils bash-completion kexec-tools sos psacct atomic-openshift-utils httpd-tools
 htpasswd -c -b /etc/origin/master/htpasswd ${AUSERNAME} ${PASSWORD}
 
@@ -88,12 +88,5 @@ ${RESOURCEGROUP} ansible_connection=local
 ${RESOURCEGROUP} openshift_hostname=${RESOURCEGROUP} openshift_node_labels="{'role':'master','region':'app','region': 'infra'}" openshift_schedulable=true ansible_connection=local
 EOF
 
-ansible -i /etc/ansible/hosts nodes -b -m shell -a \
-    'subscription-manager repos --disable="*" \
-    --enable="rhel-7-server-rpms" \
-    --enable="rhel-7-server-extras-rpms" \
-    --enable="rhel-7-server-ose-3.9-rpms" \
-    --enable="rhel-7-fast-datapath-rpms" \
-    --enable="rhel-7-server-ansible-2.4-rpms"'
 ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml
 ansible-playbook -i /etc/ansible/hosts /usr/share/ansible/openshift-ansible/playbooks/deploy_cluster.yml
